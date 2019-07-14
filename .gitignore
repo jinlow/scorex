@@ -1,0 +1,8 @@
+# Files to Ignore
+.Rbuildignore
+.Rhistory
+*.Rproj
+
+# Folders to ignore
+.Rproj.user/
+

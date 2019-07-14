@@ -1,0 +1,14 @@
+Package: scorex
+Type: Package
+Title: Create Custom Dual Score Cross Matrices
+Version: 0.0.09
+Author: James Inlow <james.d.inlow@gmail.com>
+Maintainer: James Inlow <james.d.inlow@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Imports: Rcpp
+LinkingTo: Rcpp
