@@ -4,8 +4,8 @@ Title: Create Custom Dual Score Cross Matrices
 Version: 0.0.09
 Author: James Inlow <james.d.inlow@gmail.com>
 Maintainer: James Inlow <james.d.inlow@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Create Dual Score Cross Matricies allowing for 
+    multiple performance, and bivars.
 License: MIT
 Encoding: UTF-8
 LazyData: true

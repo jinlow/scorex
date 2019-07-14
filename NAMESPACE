@@ -3,5 +3,3 @@
 S3method(format_scores,default)
 S3method(format_scores,numeric)
 export(scorex)
-importFrom(Rcpp,sourceCpp)
-useDynLib(scorex, .registration = TRUE)

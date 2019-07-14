@@ -24,11 +24,11 @@ scorex <- function(formula, data,
                     custom_cut_fnc = custom_cut_fnc)))
 }
 
-test <- scorex(score2 + score1 ~ score2, data = examp,
-               cut_method = "percentile",
-               method_args = c(1, 5, 10), exceptions = c(-10, -5))
-
-table(test$LHS_vars$score1, test$RHS_L_vars$score2)
+# test <- scorex(score2 + score1 ~ score2, data = examp,
+#                cut_method = "percentile",
+#                method_args = c(1, 5, 10), exceptions = c(-10, -5))
+#
+# table(test$LHS_vars$score1, test$RHS_L_vars$score2)
 # table(test)
 # method_args = NULL,
 # exceptions = NULL,
