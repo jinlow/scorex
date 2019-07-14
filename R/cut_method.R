@@ -2,24 +2,6 @@
 # argument in the scorex function. Each function
 # returns the score as an ordered factor.
 
-## TODO
-## - flesh out these functions.
-## - Consider using hist() instead of
-##   cut as a base, because it is faster.
-## - Another option is using findInterval()
-##   as this is a faster than hist.
-## - After reading throuhg adcvanced R v2 it
-##   it looks like it may be possible to create
-##   a slightly faster version of findInterval()
-##   using Rcpp. I would like to try this mainly
-##   for the experience of using Rcpp. For now
-##   I will use he findInterval() function and will
-##   replace it with a custom C++ function later.
-##
-## - I have decided to probably just use the .bincode()
-##   function instead of findinterval. .bincode is used
-##   as the internal function within the cut function.
-
 # Break score into even bins
 bins <- function(score, bins, exceptions = NULL) {
   if (length(bins) > 1) {
