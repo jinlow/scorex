@@ -10,7 +10,7 @@ bins <- function(score, bins, exceptions = NULL) {
 
   breaks <- quantile(score[!(score %in% exceptions)], probs = seq(0, 1, by = 1/bins))
   # If all scores are integers, round.
-  if (all(score %% 1 == 0)) breaks <- round(breaks, 0)
+  if (all(score[!(score %in% exceptions)] %% 1 == 0)) breaks <- round(breaks, 0)
 
   score <- exc_cut(score, breaks, exceptions)
   return(score)

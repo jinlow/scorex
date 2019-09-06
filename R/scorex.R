@@ -15,18 +15,21 @@ scorex <- function(formula, data,
     cut_method <- NULL
 
   # Prep LHS and
-  cut_dat <- lapply(fd[1:2], function(s)
+  fd[1:2] <- lapply(fd[1:2], function(s)
     lapply(s, function(v)
       format_scores(v,
                     cut_method = cut_method,
                     method_args = method_args,
                     exceptions = exceptions,
                     custom_cut_fnc = custom_cut_fnc)))
+
+  # Only keep non null items in list
+  if(is.null(fd$RHS_R_vars)) fd$RHS_R_vars <- NULL
+
+  return(fd)
 }
 
-# test <- scorex(score2 + score1 ~ score2, data = examp,
-#                cut_method = "percentile",
-#                method_args = c(1, 5, 10), exceptions = c(-10, -5))
+
 #
 # table(test$LHS_vars$score1, test$RHS_L_vars$score2)
 # table(test)
