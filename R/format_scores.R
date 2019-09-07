@@ -40,7 +40,6 @@ format_scores.numeric <- function(score,
                                   ...) {
   if (!is.null(custom_cut_fnc)) {
     score <- custom_cut_fnc(score)
-    if (any(is.na(score))) score <- addNA(score)
   } else if (is.null(cut_method)) {
     NULL
   } else {
