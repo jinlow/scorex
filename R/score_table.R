@@ -1,5 +1,5 @@
 # Base function for creating the frequency table of scores
-table_freq <- function(scr1, scr2, exceptions, perf = NULL, func = NULL) {
+table_freq <- function(scr1, scr2, exceptions, perf = NULL, func = NULL, idx_add = 0) {
   # Create the table
   if (is.null(perf)) tab <- table(scr1, scr2, useNA = "ifany")
   else {
@@ -32,12 +32,28 @@ table_freq <- function(scr1, scr2, exceptions, perf = NULL, func = NULL) {
   tab <- tab[c(setdiff(seq_len(nrow(tab)), w_excp_rows), w_excp_rows),
              c(setdiff(seq_len(ncol(tab)), w_excp_cols), w_excp_cols)]
 
-  tab$idx_col <- seq(nrow(tab))
+  tab$idx_col <- seq(nrow(tab)) + idx_add
   return(tab)
 }
 
 score_table <- function(scr1, scr2, exceptions, ext_vars = NULL) {
+  scr_x <- table_freq(scr1, scr2, exceptions = exceptions)
 
+  ##### FIX WHAT IS HAPPENING WITH i
+  ext_vars <- lapply(seq_along(ext_vars), function(ev) {
+    rbind(table_freq(scr1, scr2,
+                     exceptions = exceptions, perf = ext_vars[[ev]],
+                     func = sum, idx_add = ev/10),
+          table_freq(scr1, scr2,
+                     exceptions = exceptions, perf = ext_vars[[ev]],
+                     func = mean, idx_add = (ev/10) + 0.1))
+  })
+
+  scr_tab <- do.call(rbind, c(list(scr_x), ext_vars))
+  scr_tab <- scr_tab[order(scr_tab$idx_col), ]
+  scr_tab$idx_col <- NULL
+
+  return(scr_tab)
 }
 
 
