@@ -26,6 +26,8 @@ scorex <- function(formula, data,
   # Only keep non null items in list
   if(is.null(fd$RHS_R_vars)) fd$RHS_R_vars <- NULL
 
+
+
   return(fd)
 }
 

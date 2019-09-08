@@ -1,8 +1,15 @@
 # Base function for creating the frequency table of scores
-table_freq <- function(scr1, scr2, exceptions, perf = NULL, func = NULL, idx_add = 0) {
+table_freq <- function(scr1, scr2,
+                       exceptions,
+                       perf = NULL,
+                       func = NULL,
+                       idx_add = 0,
+                       description = "N Obs") {
   # Create the table
-  if (is.null(perf)) tab <- table(scr1, scr2, useNA = "ifany")
-  else {
+  if (is.null(perf)) {
+    tab <- tapply(rep(1, length(scr1)), INDEX = list(scr1, scr2), FUN = sum)
+    tab[is.na(tab)] <- 0
+  } else {
     stopifnot(!is.null(func))
     tab <- tapply(X = perf, INDEX = list(scr1, scr2), FUN = func)
     tab[is.na(tab)] <- 0
@@ -33,25 +40,39 @@ table_freq <- function(scr1, scr2, exceptions, perf = NULL, func = NULL, idx_add
              c(setdiff(seq_len(ncol(tab)), w_excp_cols), w_excp_cols)]
 
   tab$idx_col <- seq(nrow(tab)) + idx_add
+
+  # Add Description column
+  tab$Field <- description
+  tab <- tab[, c(1, ncol(tab), 2:(ncol(tab) - 1))]
+
   return(tab)
 }
 
-score_table <- function(scr1, scr2, exceptions, ext_vars = NULL) {
+round_mean <- function(x) round(mean(x), digits = 2)
+
+score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("score1", "score2")) {
   scr_x <- table_freq(scr1, scr2, exceptions = exceptions)
 
-  ##### FIX WHAT IS HAPPENING WITH i
   ext_vars <- lapply(seq_along(ext_vars), function(ev) {
-    rbind(table_freq(scr1, scr2,
-                     exceptions = exceptions, perf = ext_vars[[ev]],
-                     func = sum, idx_add = ev/10),
-          table_freq(scr1, scr2,
-                     exceptions = exceptions, perf = ext_vars[[ev]],
-                     func = mean, idx_add = (ev/10) + 0.1))
+    var_sum <- table_freq(scr1, scr2,
+                          exceptions = exceptions, perf = ext_vars[[ev]],
+                          func = sum, idx_add = ((ev/10) + (0.1 * (ev-1))),
+                          description = sprintf("N %s", names(ext_vars)[[ev]]))
+    var_rate <- table_freq(scr1, scr2,
+                           exceptions = exceptions, perf = ext_vars[[ev]],
+                           func = round_mean,
+                           idx_add = ((ev/10) + (0.1 * ev)),
+                           description = sprintf("Rate %s", names(ext_vars)[[ev]]))
+    var_sum$crss_scr <- ""
+    var_rate$crss_scr <- ""
+    rbind(var_sum, var_rate)
   })
 
   scr_tab <- do.call(rbind, c(list(scr_x), ext_vars))
   scr_tab <- scr_tab[order(scr_tab$idx_col), ]
   scr_tab$idx_col <- NULL
+  names(scr_tab)[[1]] <- sprintf("%s X %s", scr_names[[1]], scr_names[[2]])
+  rownames(scr_tab) <- NULL
 
   return(scr_tab)
 }
