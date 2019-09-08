@@ -2,7 +2,6 @@
 table_freq <- function(scr1, scr2,
                        exceptions,
                        perf = NULL,
-                       func = NULL,
                        idx_add = 0,
                        description = "N Obs") {
   # Create the table
@@ -10,8 +9,7 @@ table_freq <- function(scr1, scr2,
     tab <- tapply(rep(1, length(scr1)), INDEX = list(scr1, scr2), FUN = sum)
     tab[is.na(tab)] <- 0
   } else {
-    stopifnot(!is.null(func))
-    tab <- tapply(X = perf, INDEX = list(scr1, scr2), FUN = func)
+    tab <- tapply(X = perf, INDEX = list(scr1, scr2), FUN = sum)
     tab[is.na(tab)] <- 0
   }
 
@@ -45,6 +43,14 @@ table_freq <- function(scr1, scr2,
   tab$Field <- description
   tab <- tab[, c(1, ncol(tab), 2:(ncol(tab) - 1))]
 
+  # Add Totals Column
+  tab <- rbind(tab,
+               c(list("crss_scr" = "Totals", "Field" = "N Obs"),
+                 colSums(tab[, - c(1, 2, ncol(tab))]),
+                 "idx_col" = (nrow(tab) + 1)))
+
+  tab$Totals <- rowSums(tab[, - c(1, 2, ncol(tab))])
+
   return(tab)
 }
 
@@ -56,25 +62,28 @@ score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("
   ext_vars <- lapply(seq_along(ext_vars), function(ev) {
     var_sum <- table_freq(scr1, scr2,
                           exceptions = exceptions, perf = ext_vars[[ev]],
-                          func = sum, idx_add = ((ev/10) + (0.1 * (ev-1))),
+                          idx_add = ((ev/10) + (0.1 * (ev-1))),
                           description = sprintf("N %s", names(ext_vars)[[ev]]))
-    var_rate <- table_freq(scr1, scr2,
-                           exceptions = exceptions, perf = ext_vars[[ev]],
-                           func = round_mean,
-                           idx_add = ((ev/10) + (0.1 * ev)),
-                           description = sprintf("Rate %s", names(ext_vars)[[ev]]))
+    # Create Rates
+    var_rate <- var_sum
+    # Remove round later
+    var_rate[, -c(1, 2, ncol(var_rate) - 1)] <- round(var_rate[, -c(1, 2, ncol(var_rate) - 1)] /
+                                                   scr_x[, -c(1, 2, ncol(scr_x) - 1)], 2)
+    var_rate[is.nan(var_rate)] <- 0
+    var_rate$idx_col <- scr_x$idx_col + (ev/10) + (0.1 * ev)
+
     var_sum$crss_scr <- ""
     var_rate$crss_scr <- ""
     rbind(var_sum, var_rate)
   })
 
-  scr_tab <- do.call(rbind, c(list(scr_x), ext_vars))
-  scr_tab <- scr_tab[order(scr_tab$idx_col), ]
-  scr_tab$idx_col <- NULL
-  names(scr_tab)[[1]] <- sprintf("%s X %s", scr_names[[1]], scr_names[[2]])
-  rownames(scr_tab) <- NULL
+  scr_x <- do.call(rbind, c(list(scr_x), ext_vars))
+  scr_x <- scr_x[order(scr_x$idx_col), ]
+  scr_x$idx_col <- NULL
+  names(scr_x)[[1]] <- sprintf("%s X %s", scr_names[[1]], scr_names[[2]])
+  rownames(scr_x) <- NULL
 
-  return(scr_tab)
+  return(scr_x)
 }
 
 

@@ -6,3 +6,7 @@
   rng[[1]] <= x & x <= rng[[2]]
 }
 
+# Same as is.na.data.frame
+is.nan.data.frame <- function(x) {
+  do.call(cbind, lapply(x, is.nan))
+}
