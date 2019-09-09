@@ -54,8 +54,7 @@ table_freq <- function(scr1, scr2,
   return(tab)
 }
 
-round_mean <- function(x) round(mean(x), digits = 2)
-
+# Combine scores and multiple performances.
 score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("score1", "score2")) {
   scr_x <- table_freq(scr1, scr2, exceptions = exceptions)
 
@@ -69,8 +68,10 @@ score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("
     # Remove round later
     var_rate[, -c(1, 2, ncol(var_rate) - 1)] <- round(var_rate[, -c(1, 2, ncol(var_rate) - 1)] /
                                                    scr_x[, -c(1, 2, ncol(scr_x) - 1)], 2)
+    # Create Rate Columns
     var_rate[is.nan(var_rate)] <- 0
     var_rate$idx_col <- scr_x$idx_col + (ev/10) + (0.1 * ev)
+    var_rate$Field <- sprintf("Rate %s", names(ext_vars)[[ev]])
 
     var_sum$crss_scr <- ""
     var_rate$crss_scr <- ""

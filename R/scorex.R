@@ -21,14 +21,22 @@ scorex <- function(formula, data,
                     cut_method = cut_method,
                     method_args = method_args,
                     exceptions = exceptions,
-                    custom_cut_fnc = custom_cut_fnc)))
+                    custom_cut_fnc = custom_cut_fnc,
+                    ...)))
 
   # Only keep non null items in list
   if(is.null(fd$RHS_R_vars)) fd$RHS_R_vars <- NULL
 
+  # Create Score Tables
+  scr_crss_tabs <- lapply(names(fd$LHS_vars), function(s1_nm) {
+    lapply(names(fd$RHS_L_vars), function(s2_nm) {
+      score_table(fd$LHS_vars[[s1_nm]], fd$RHS_L_vars[[s2_nm]], exceptions = exceptions,
+                  ext_vars = fd$RHS_R_vars,
+                  scr_names = c(s1_nm, s2_nm))
+    })
+  })
 
-
-  return(fd)
+  return(scr_crss_tabs)
 }
 
 
