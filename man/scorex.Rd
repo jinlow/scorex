@@ -5,9 +5,41 @@
 \title{scorex}
 \usage{
 scorex(formula, data, cut_method = c("bins", "breaks", "percentiles"),
-  method_args = NULL, exceptions = NULL, custom_cut_fnc = NULL, ...)
+  method_args = NULL, exceptions = NA, custom_cut_fnc = NULL, ...)
+}
+\arguments{
+\item{formula}{A formula of the form LHS ~ RHS to use to specify which fields
+to use as the scores and performance measures in the tables, see Details.}
+
+\item{data}{A data.frame, that has the fields specified in the formula.}
+
+\item{cut_method}{The method to use to format the score in the final table.
+Currently the available methods are:
+\itemize{
+  \item \code{bins}: Break the scores into a set number of even bins.
+  \item \code{breaks}: Set the score values to break the score at.
+  \item \code{percentiles}: Set the percentiles to use to break the scores at.
+}}
+
+\item{method_args}{Arguments to use for the method specified in \code{cut_method}
+each method uses the following argument.
+\itemize{
+  \item \code{bins}: Provide a integer number of breaks to use.
+  \item \code{breaks}: Provide a vector that specifies the cuts to use.
+  \item \code{percentiles}: Provide a vector of percentiles between the values of 0 and 1.
+}}
+
+\item{exceptions}{A vector of exception values to exclude from the cross table.
+The default is set to \code{NA}.}
+
+\item{custom_cut_fnc}{A custom function to use to cut the scores.}
+
+\item{...}{Other arguments to pass to the \code{custom_cut_fnc}}
 }
 \description{
 A dual score matrix function that allows for multiple
 performance, and cross variables.
+}
+\details{
+Fill out...
 }
