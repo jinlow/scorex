@@ -35,6 +35,9 @@ percentiles <- function(score, percentiles, exceptions) {
   percentiles <- unique(c(0, 1, percentiles))
   breaks <- quantile(score[!(score %in% exceptions)], probs = percentiles)
 
+  # If all scores are integers, round.
+  if (all(score[!(score %in% exceptions)] %% 1 == 0)) breaks <- round(breaks, 0)
+
   score <- exc_cut(score, breaks, exceptions)
   return(score)
 }
@@ -96,7 +99,7 @@ make_labels <- function(breaks, exceptions = NULL) {
   labs[-length(labs)]
 }
 
-#make_labels(t1, c(400, 550, 700, 800))
+# make_labels(t1, c(400, 550, 700, 800))
 # test <- exc_cut(t1, c(300, 550, 700, 800)) #, exceptions = c(540, 331))
 # table(test)
 #

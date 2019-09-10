@@ -45,9 +45,9 @@ table_freq <- function(scr1, scr2,
 
   # Add Totals Column
   tab <- rbind(tab,
-               c(list("crss_scr" = "Totals", "Field" = "N Obs"),
+               c(list("crss_scr" = "Totals", "Field" = description),
                  colSums(tab[, - c(1, 2, ncol(tab))]),
-                 "idx_col" = (nrow(tab) + 1)))
+                 "idx_col" = (nrow(tab) + 1 + idx_add)))
 
   tab$Totals <- rowSums(tab[, - c(1, 2, ncol(tab))])
 
@@ -80,7 +80,7 @@ score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("
 
   scr_x <- do.call(rbind, c(list(scr_x), ext_vars))
   scr_x <- scr_x[order(scr_x$idx_col), ]
-  scr_x$idx_col <- NULL
+  # scr_x$idx_col <- NULL
   names(scr_x)[[1]] <- sprintf("%s X %s", scr_names[[1]], scr_names[[2]])
   rownames(scr_x) <- NULL
 
