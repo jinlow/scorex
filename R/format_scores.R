@@ -41,7 +41,8 @@ format_scores.numeric <- function(score,
   if (!is.null(custom_cut_fnc)) {
     score <- custom_cut_fnc(score)
   } else if (is.null(cut_method)) {
-    NULL
+    warning("cut_method not specified, score breaks will defualt to 5 even bins.")
+    score <- bins(score, bins = 5, exceptions)
   } else {
     # Get name of cut method to use
     cut_method <- match.arg(cut_method)
