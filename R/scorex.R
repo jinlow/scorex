@@ -60,6 +60,7 @@ scorex <- function(formula, data,
     })
   })
 
+
   return(scr_crss_tabs)
 }
 

@@ -80,9 +80,12 @@ score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("
 
   scr_x <- do.call(rbind, c(list(scr_x), ext_vars))
   scr_x <- scr_x[order(scr_x$idx_col), ]
-  # scr_x$idx_col <- NULL
+  scr_x$idx_col <- NULL
   names(scr_x)[[1]] <- sprintf("%s X %s", scr_names[[1]], scr_names[[2]])
   rownames(scr_x) <- NULL
+
+  # structure(list(scr_x, # All other stuff),
+  #           class = c("scorex_table", "list"))
 
   return(scr_x)
 }
