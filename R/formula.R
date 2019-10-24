@@ -29,13 +29,21 @@ prep_formula <- function(formula) {
 
   RHS_L <- strsplit(x = RHS[[1]], split = "\\s*\\+\\s*")[[1]]
 
-  if (length(RHS) == 2)
+  # Gather Bivariates, and percent bivariates
+  if (length(RHS) == 2) {
     RHS_R <- strsplit(x = RHS[[2]], split = "\\s*\\+\\s*")[[1]]
-  else
+    if (any(grepl(pattern = "\\!", x = RHS_R, ignore.case = TRUE))) {
+      RHS_R_bv <- grep(pattern = "\\!", x = RHS_R, ignore.case = TRUE, value = TRUE)
+      RHS_R <- setdiff(RHS_R, RHS_R_bv)
+      RHS_R_bv <- gsub(pattern = "\\!\\s*", replacement = "", x = RHS_R_bv)
+
+    } else RHS_R_bv <- NULL
+  } else {
     RHS_R <- NULL
+    RHS_R_bv <- NULL
+  }
 
-
-  return(list(LHS = LHS, RHS_L = RHS_L, RHS_R = RHS_R))
+  return(list(LHS = LHS, RHS_L = RHS_L, RHS_R = RHS_R, RHS_R_bv = RHS_R_bv))
 }
 
 # Get Field
@@ -69,8 +77,16 @@ get_formula_fields <- function(formula, x) {
     RHS_R_vars <- NULL
   }
 
+  # RHS_R_bv if any
+  if (!is.null(formula_list[[4]])) {
+    RHS_R_bvs <- get_side_fields(formula_list[[4]], x)
+  } else {
+    RHS_R_bvs <- NULL
+  }
+
   return(list(LHS_vars = LHS_vars,
               RHS_L_vars = RHS_L_vars,
-              RHS_R_vars = RHS_R_vars))
+              RHS_R_vars = RHS_R_vars,
+              RHS_R_bvs = RHS_R_bvs))
 }
 

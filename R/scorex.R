@@ -50,18 +50,23 @@ scorex <- function(formula, data,
 
   # Only keep non null items in list
   if(is.null(fd$RHS_R_vars)) fd$RHS_R_vars <- NULL
+  if(is.null(fd$RHS_R_bvs)) fd$RHS_R_bvs <- NULL
 
   # Create Score Tables
   scr_crss_tabs <- lapply(names(fd$LHS_vars), function(s1_nm) {
     lapply(names(fd$RHS_L_vars), function(s2_nm) {
       score_table(fd$LHS_vars[[s1_nm]], fd$RHS_L_vars[[s2_nm]], exceptions = exceptions,
                   ext_vars = fd$RHS_R_vars,
+                  ext_bv_vars = fd$RHS_R_bvs,
                   scr_names = c(s1_nm, s2_nm))
     })
   })
 
-
-  return(scr_crss_tabs)
+  structure(
+    list(
+      tables = unlist(scr_crss_tabs, recursive = FALSE),
+      formula = formula),
+    class = "scorex_list")
 }
 
 

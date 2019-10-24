@@ -10,3 +10,11 @@
 is.nan.data.frame <- function(x) {
   do.call(cbind, lapply(x, is.nan))
 }
+
+#' S3 print method for scorex_list
+#' @export
+print.scorex_list <- function(x, ...) {
+  scorex_summary <- sprintf("Scorex list called from:\n %s", deparse(x$formula))
+  cat(scorex_summary)
+}
+

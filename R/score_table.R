@@ -55,14 +55,35 @@ table_freq <- function(scr1, scr2,
 }
 
 # Combine scores and multiple performances.
-score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("score1", "score2")) {
+score_table <- function(scr1, scr2,
+                        exceptions,
+                        ext_vars = NULL, ext_bv_vars = NULL,
+                        scr_names = c("score1", "score2")) {
   scr_x <- table_freq(scr1, scr2, exceptions = exceptions)
 
+  # Combine extra vars if bvars present
+  if (!is.null(ext_bv_vars)) {
+    ext_bv_vars <- lapply(ext_bv_vars, function(x) {
+      attr(x, "bvs") <- TRUE
+      x})
+    ext_vars <- c(ext_vars, ext_bv_vars)
+  }
+
   ext_vars <- lapply(seq_along(ext_vars), function(ev) {
+
+    # Edit Description, and mean or rate
+    if (!is.null(attributes(ext_vars[[ev]])$bvs)) {
+      rate_desc <- "Mean"
+      tab_description <- sprintf("Sum %s", names(ext_vars)[[ev]])
+    } else {
+      rate_desc <- "Rate"
+      tab_description <- sprintf("N %s", names(ext_vars)[[ev]])
+    }
+
     var_sum <- table_freq(scr1, scr2,
                           exceptions = exceptions, perf = ext_vars[[ev]],
                           idx_add = ((ev/10) + (0.1 * (ev-1))),
-                          description = sprintf("N %s", names(ext_vars)[[ev]]))
+                          description = tab_description)
     # Create Rates
     var_rate <- var_sum
     # Remove round later
@@ -71,7 +92,8 @@ score_table <- function(scr1, scr2, exceptions, ext_vars = NULL, scr_names = c("
     # Create Rate Columns
     var_rate[is.nan(var_rate)] <- 0
     var_rate$idx_col <- scr_x$idx_col + (ev/10) + (0.1 * ev)
-    var_rate$Field <- sprintf("Rate %s", names(ext_vars)[[ev]])
+
+    var_rate$Field <- sprintf("%s %s", rate_desc,names(ext_vars)[[ev]])
 
     var_sum$crss_scr <- ""
     var_rate$crss_scr <- ""

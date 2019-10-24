@@ -24,7 +24,7 @@ Currently the available methods are:
 \item{method_args}{Arguments to use for the method specified in \code{cut_method}
 each method uses the following argument.
 \itemize{
-  \item \code{bins}: Provide a integer number of breaks to use.
+  \item \code{bins}: Provide a integer specifying the even number of breaks to create.
   \item \code{breaks}: Provide a vector that specifies the cuts to use.
   \item \code{percentiles}: Provide a vector of percentiles between the values of 0 and 1.
 }}
