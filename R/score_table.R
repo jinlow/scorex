@@ -61,6 +61,7 @@ score_table <- function(scr1, scr2,
                         scr_names = c("score1", "score2")) {
   scr_x <- table_freq(scr1, scr2, exceptions = exceptions)
 
+  # TODO: Refactor code
   # Combine extra vars if bvars present
   if (!is.null(ext_bv_vars)) {
     ext_bv_vars <- lapply(ext_bv_vars, function(x) {
@@ -106,27 +107,5 @@ score_table <- function(scr1, scr2,
   names(scr_x)[[1]] <- sprintf("%s X %s", scr_names[[1]], scr_names[[2]])
   rownames(scr_x) <- NULL
 
-  # structure(list(scr_x, # All other stuff),
-  #           class = c("scorex_table", "list"))
-
   return(scr_x)
 }
-
-
-# set.seed(123)
-# examp <- data.frame(score1 = sample(c(NA, -10, -5, 300:999), size = 500000, replace = TRUE),
-#                     score2 = sample(c(rep(300:330, 5), 300:999, -5), size = 500000, replace = TRUE),
-#                     perf   = sample(c(0, 0, 0, 1), size = 50000, replace = TRUE),
-#                     bvar1  = sample(1:25, size = 50000, replace = TRUE))
-#
-# test <- scorex(score2 + score1 ~ score2 | perf, data = examp,
-#                cut_method = "percentile",
-#                method_args = c(1, 5, 15, 25, 50, 75), exceptions = c(-10, -5, NA))
-#
-#
-# scorex:::table_freq(test$LHS_vars$score1, test$RHS_L_vars$score2, exceptions = c(-10, -5, NA))
-# scorex:::table_freq(test$LHS_vars$score1, test$RHS_L_vars$score2, exceptions = c(-10, -5, NA),
-#                     perf = test$RHS_R_vars$perf, func = sum)
-#
-# scorex:::table_freq(test$LHS_vars$score1, test$RHS_L_vars$score2, exceptions = c(-10, -5, NA),
-#                     perf = test$RHS_R_vars$perf, func = mean)

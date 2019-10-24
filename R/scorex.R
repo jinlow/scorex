@@ -68,11 +68,3 @@ scorex <- function(formula, data,
       formula = formula),
     class = "scorex_list")
 }
-
-
-#
-# table(test$LHS_vars$score1, test$RHS_L_vars$score2)
-# table(test)
-# method_args = NULL,
-# exceptions = NULL,
-# custom_cut_fnc = NULL)

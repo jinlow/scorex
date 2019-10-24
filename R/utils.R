@@ -17,4 +17,3 @@ print.scorex_list <- function(x, ...) {
   scorex_summary <- sprintf("Scorex list called from:\n %s", deparse(x$formula))
   cat(scorex_summary)
 }
-

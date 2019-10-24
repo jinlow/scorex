@@ -54,14 +54,3 @@ format_scores.numeric <- function(score,
   if (any(is.na(score))) score <- addNA(score)
   return(score)
 }
-
-# set.seed(123)
-# t1 <- sample(c(-10, -5, 300:900), size = 50000, replace = TRUE)
-# table(format_scores(t1, cut_method = "breaks", method_args = c(300, 400, 500), exceptions = c(-10, -5)))
-# table(format_scores(t1, cut_method = "percentiles", method_args = c(1, 10, 50), exceptions = c(-10, -5)))
-# table(format_scores(t1, cut_method = "bin", method_args = 4, exceptions = c(-10, -5)))
-
-# table(format_scores(t1))
-# format_scores(c("poop", "poop"), score_breaks = NULL)
-# format_scores(as.factor(c("poop", "poop")))
-

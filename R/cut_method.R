@@ -98,14 +98,3 @@ make_labels <- function(breaks, exceptions = NULL) {
   labs <- paste0(breaks, "-", brks[-1])
   labs[-length(labs)]
 }
-
-# make_labels(t1, c(400, 550, 700, 800))
-# test <- exc_cut(t1, c(300, 550, 700, 800)) #, exceptions = c(540, 331))
-# table(test)
-#
-# table(cut(t1, c(300, 550, 700, 800), include.lowest = T), useNA = "ifany")
-#
-# bnch <- microbenchmark::microbenchmark(cut(t1, c(300, 550, 700, 800), include.lowest = T),
-#                                        exc_cut(t1, c(300, 550, 700, 800)), times = 3000)
-# #plot(bnch)
-# bench::bench_time(cut(t1, c(300, 550, 700, 800), include.lowest = T))

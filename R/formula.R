@@ -89,4 +89,3 @@ get_formula_fields <- function(formula, x) {
               RHS_R_vars = RHS_R_vars,
               RHS_R_bvs = RHS_R_bvs))
 }
-
