@@ -2,5 +2,6 @@
 
 S3method(format_scores,default)
 S3method(format_scores,numeric)
-S3method(print,scorex_list)
+S3method(print,scorex)
 export(scorex)
+export(scorex_to_xl)

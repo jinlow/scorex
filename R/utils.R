@@ -13,7 +13,13 @@ is.nan.data.frame <- function(x) {
 
 #' S3 print method for scorex_list
 #' @export
-print.scorex_list <- function(x, ...) {
+print.scorex <- function(x, ...) {
   scorex_summary <- sprintf("Scorex list called from:\n %s", deparse(x$formula))
   cat(scorex_summary)
+}
+
+# Lapply for side effects
+invisible_lapply <- function(X, FUN, ...) {
+  X <- lapply(X, FUN, ...)
+  invisible(X)
 }

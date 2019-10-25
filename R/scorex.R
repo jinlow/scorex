@@ -66,5 +66,5 @@ scorex <- function(formula, data,
     list(
       tables = unlist(scr_crss_tabs, recursive = FALSE),
       formula = formula),
-    class = "scorex_list")
+    class = "scorex")
 }
