@@ -37,6 +37,8 @@ prep_formula <- function(formula) {
       RHS_R <- setdiff(RHS_R, RHS_R_bv)
       RHS_R_bv <- gsub(pattern = "\\!\\s*", replacement = "", x = RHS_R_bv)
 
+      if (length(RHS_R) == 0) RHS_R <- NULL
+
     } else RHS_R_bv <- NULL
   } else {
     RHS_R <- NULL

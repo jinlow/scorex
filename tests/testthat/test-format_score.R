@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("Test Format Score", {
   expect_equal(format_scores(c("1", "2", "3"),
                              cut_method = "bins"), c("1", "2", "3"))
   expect_warning(format_scores(c("1", "2", "3"),
