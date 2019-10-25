@@ -32,6 +32,10 @@ scorex <- function(formula, data,
                    method_args = NULL,
                    exceptions = NA,
                    custom_cut_fnc = NULL, ...) {
+
+  # Add NA to Exceptions
+  if (!any(is.na(exceptions))) exceptions <- c(exceptions, NA)
+
   # Get data fields
   fd <- get_formula_fields(formula, data)
 

@@ -9,7 +9,7 @@ prep_formula <- function(formula) {
   LHS <- deparse(formula[[2]])
 
   # Check that LHS only has plus
-  if (grepl("(?!\\+)[[:punct:]]", x = LHS, perl = TRUE)) {
+  if (grepl("\\|", x = LHS, perl = TRUE)) {
     stop("Invalid character in left hand side of formula. Only '+' supported.", call. = FALSE)
   }
 

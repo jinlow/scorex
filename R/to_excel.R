@@ -128,12 +128,14 @@ scorex_table_to_xl <- function(x, row, col, wb, sheet, header_style) {
   # Conditional Formatting
   cond_max <- max(x[pct_rows, 3:ncol(x)])
   cond_min <- min(x[pct_rows, 3:ncol(x)])
+  cond_mean <- mean(as.matrix(x[pct_rows, 3:ncol(x)]))
+
   invisible_lapply (pct_rows, function(.x) {
     openxlsx::conditionalFormatting(wb,
                                     sheet,
                                     cols = 3:nrow(x) + (col - 1),
                                     rows = (row + .x),
-                                    rule = c(cond_min, mean(c(cond_max, cond_min)), cond_max),
+                                    rule = c(cond_min, cond_mean, cond_max),
                                     type = 'colorScale',
                                     style = c("#70c66f", "#ffe88c", "#ff6376"))})
 }
