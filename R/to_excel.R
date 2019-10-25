@@ -50,7 +50,7 @@ scorex_to_xl <- function(x, row = 1, col = 1, wb = NULL, sheet = NULL, open = TR
     openxlsx::openXL(wb)
   }
 
-  return(wb)
+  return(invisible(wb))
 }
 
 scorex_table_to_xl <- function(x, row, col, wb, sheet, header_style) {
@@ -62,6 +62,14 @@ scorex_table_to_xl <- function(x, row, col, wb, sheet, header_style) {
                       borders = "all",
                       headerStyle = header_style,
                       keepNA = FALSE)
+
+  # Merge Cells
+  mcells <- which(x[,1] != "") + row
+  mcells_max <- mcells + (mcells[[2]] - mcells[[1]]) - 1
+  mseqs <- mapply(seq, mcells, mcells_max, SIMPLIFY = FALSE)
+  invisible_lapply(mseqs, function(msq) {
+    openxlsx::mergeCells(wb = wb, sheet = sheet, cols = (col), rows = msq)
+  })
 
   # Format Percent rows
   pct_style <- openxlsx::createStyle(numFmt = "PERCENTAGE",
