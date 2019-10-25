@@ -26,6 +26,7 @@ scorex_to_xl <- function(x, row = 1, col = 1, wb = NULL, sheet = NULL, open = TR
 
   header_style <- openxlsx::createStyle(fgFill = "#d3daea",
                                         halign = "CENTER",
+                                        valign = "center",
                                         textDecoration = "Bold",
                                         border = "TopBottomLeftRight",
                                         borderColour = "black",
@@ -121,7 +122,8 @@ scorex_table_to_xl <- function(x, row, col, wb, sheet, header_style) {
   #                    gridExpand = TRUE)
 
   # Col Width
-  openxlsx::setColWidths(wb, sheet = sheet, cols = col:(ncol(x) + col), widths = "auto")
+  openxlsx::setColWidths(wb, sheet = sheet, cols = col:(ncol(x) + col),
+                         widths = c(15, 10, rep(7.4, (ncol(x) - 2))))
 
   # Conditional Formatting
   cond_max <- max(x[pct_rows, 3:ncol(x)])
@@ -135,6 +137,3 @@ scorex_table_to_xl <- function(x, row, col, wb, sheet, header_style) {
                                     type = 'colorScale',
                                     style = c("#70c66f", "#ffe88c", "#ff6376"))})
 }
-
-
-
