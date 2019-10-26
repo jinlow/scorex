@@ -13,4 +13,5 @@ RoxygenNote: 6.1.1
 Depends:
     openxlsx (>= 4.1.0)
 Suggests: 
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    covr
