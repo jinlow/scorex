@@ -23,3 +23,12 @@ invisible_lapply <- function(X, FUN, ...) {
   X <- lapply(X, FUN, ...)
   invisible(X)
 }
+
+# Get the number of decimal places
+decimal_place <- function(x) {
+  if (abs(x - round(x)) > .Machine$double.eps^0.5) {
+    nchar(strsplit(sub('0+$', '', as.character(x)), ".", fixed = TRUE)[[1]][[2]])
+  } else {
+    return(0)
+  }
+}

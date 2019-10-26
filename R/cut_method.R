@@ -83,12 +83,11 @@ exc_cut <- function (x, breaks, exceptions = NULL) {
 
 # Make labels. This function expects the breaks are sorted.
 make_labels <- function(breaks, exceptions = NULL) {
-  #To add
   brks <- breaks
   to_add <- vapply(breaks[-1], function(x) {
     if ((x %% 1 == 0)) return(1)
     else {
-      div <- (match(TRUE, round(x, 1:10) == x))
+      div <- decimal_place(x)
       dec <- 1/(10^div)
       return(dec)}
     }, FUN.VALUE = numeric(1))
