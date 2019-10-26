@@ -1,7 +1,3 @@
-  <!-- badges: start -->
-[![Codecov test coverage](https://codecov.io/gh/jinlow/scorex/branch/master/graph/badge.svg)](https://codecov.io/gh/jinlow/scorex?branch=master)
-  <!-- badges: end -->
-
 # scorex <img src="man/figures/scorex_hex_sticker.png" align="right" height = 150/>
 ## An R Package for Creating Score Cross Tables
 
