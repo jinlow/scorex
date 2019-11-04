@@ -73,15 +73,18 @@ scorex_table_to_xl <- function(x, row, col, wb, sheet, header_style) {
   })
 
   # Format Percent rows
-  pct_style <- openxlsx::createStyle(numFmt = "PERCENTAGE",
-                                     border = "TopBottomLeftRight")
   pct_rows <- grep(pattern = "Rate", x = x[,2], ignore.case = TRUE)
-  openxlsx::addStyle(wb = wb,
-                     sheet = sheet,
-                     style = pct_style,
-                     rows = (pct_rows + (row)),
-                     cols = (col + 2):(ncol(x) + col - 1),
-                     gridExpand = TRUE)
+  if (length(pct_rows) > 0) {
+    pct_style <- openxlsx::createStyle(numFmt = "PERCENTAGE",
+                                       border = "TopBottomLeftRight")
+
+    openxlsx::addStyle(wb = wb,
+                       sheet = sheet,
+                       style = pct_style,
+                       rows = (pct_rows + (row)),
+                       cols = (col + 2):(ncol(x) + col - 1),
+                       gridExpand = TRUE)
+  }
 
   # Add side formatting
   openxlsx::addStyle(wb = wb,
@@ -126,16 +129,20 @@ scorex_table_to_xl <- function(x, row, col, wb, sheet, header_style) {
                          widths = c(15, 10, rep(7.4, (ncol(x) - 2))))
 
   # Conditional Formatting
-  cond_max <- max(x[pct_rows, 3:ncol(x)])
-  cond_min <- min(x[pct_rows, 3:ncol(x)])
-  cond_mean <- mean(as.matrix(x[pct_rows, 3:ncol(x)]))
+  if (length(pct_rows) > 0) {
+    cond_max <- max(x[pct_rows, 3:ncol(x)])
+    cond_min <- min(x[pct_rows, 3:ncol(x)])
+    cond_mean <- mean(as.matrix(x[pct_rows, 3:ncol(x)]))
 
-  invisible_lapply (pct_rows, function(.x) {
-    openxlsx::conditionalFormatting(wb,
-                                    sheet,
-                                    cols = 3:nrow(x) + (col - 1),
-                                    rows = (row + .x),
-                                    rule = c(cond_min, cond_mean, cond_max),
-                                    type = 'colorScale',
-                                    style = c("#70c66f", "#ffe88c", "#ff6376"))})
+    invisible_lapply (pct_rows, function(.x) {
+      openxlsx::conditionalFormatting(wb,
+                                      sheet,
+                                      cols = 3:nrow(x) + (col - 1),
+                                      rows = (row + .x),
+                                      rule = c(cond_min, cond_mean, cond_max),
+                                      type = 'colorScale',
+                                      style = c("#70c66f", "#ffe88c", "#ff6376"))})
+  }
+
+  return(0)
 }
