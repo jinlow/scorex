@@ -17,7 +17,7 @@ prep_formula <- function(formula) {
   LHS <- strsplit(x = LHS, split = "\\s*\\+\\s*")[[1]]
 
   # Parse RHS
-  RHS <- deparse(formula[[3]])
+  RHS <- paste0(deparse(formula[[3]]), collapse = "")
 
   # Split terms at '|'.
   RHS <- strsplit(x = RHS, split = "\\s*\\|\\s*")[[1]]
