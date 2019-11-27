@@ -46,7 +46,6 @@ percentiles <- function(score, percentiles, exceptions) {
 
 # Cut function that allows for exception values
 exc_cut <- function (x, breaks, exceptions = NULL) {
-
   # Add min max to breaks if not present
   x_m_ex <- x[!(x %in% exceptions)] # Drop any exceptions when considering this
   if (!(min(x_m_ex) >= min(breaks))) breaks <- c(min(x_m_ex), breaks)
@@ -64,6 +63,8 @@ exc_cut <- function (x, breaks, exceptions = NULL) {
     # Check if exceptions in break values
     if (any(exceptions %in% breaks))
       stop("Exception values present in breaks.", call. = FALSE)
+    # Drop Exceptions if not in X
+    exceptions <- exceptions[exceptions %in% x]
     invisible(vapply(exceptions, function(excp) {
       excp_idx <- which(x == excp)
       broken[excp_idx] <<- excp
@@ -71,7 +72,7 @@ exc_cut <- function (x, breaks, exceptions = NULL) {
     }, FUN.VALUE = numeric(1)))
 
     labs <- c(as.character(exceptions), labs)
-    levs <- c(exceptions, levs)
+    levs <- unique(c(exceptions, levs))
   }
   cut_score <- factor(x = broken,
                       levels = levs,
