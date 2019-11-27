@@ -65,6 +65,18 @@ exc_cut <- function (x, breaks, exceptions = NULL) {
       stop("Exception values present in breaks.", call. = FALSE)
     # Drop Exceptions if not in X
     exceptions <- exceptions[exceptions %in% x]
+
+    # If there is an exception that is one of the levs, this will
+    # mess up the creation of a factor, for example 1.
+    # To combat this we need to add to our levels.
+    # If an exception is a level, we could add the highest
+    # exception value to our levels, and broken and this
+    # should get rid of the issue.
+    if (any(exceptions %in% levs)) {
+      levs <- levs + max(exceptions)
+      broken <- broken + max(exceptions)
+    }
+
     invisible(vapply(exceptions, function(excp) {
       excp_idx <- which(x == excp)
       broken[excp_idx] <<- excp
@@ -72,7 +84,7 @@ exc_cut <- function (x, breaks, exceptions = NULL) {
     }, FUN.VALUE = numeric(1)))
 
     labs <- c(as.character(exceptions), labs)
-    levs <- unique(c(exceptions, levs))
+    levs <- c(exceptions, levs)
   }
   cut_score <- factor(x = broken,
                       levels = levs,
