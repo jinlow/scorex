@@ -18,6 +18,14 @@ print.scorex <- function(x, ...) {
   cat(scorex_summary)
 }
 
+#' S3 print method for scorex_table
+#' @export
+print.scorex_table <- function(x, ...) {
+  x <- as.data.frame(x)
+  x[, c(-1,-2)] <- lapply(x[, c(-1,-2)], round, 2)
+  print(x)
+}
+
 # Lapply for side effects
 invisible_lapply <- function(X, FUN, ...) {
   X <- lapply(X, FUN, ...)

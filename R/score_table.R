@@ -88,8 +88,8 @@ score_table <- function(scr1, scr2,
     # Create Rates
     var_rate <- var_sum
     # Remove round later
-    var_rate[, -c(1, 2, ncol(var_rate) - 1)] <- round(var_rate[, -c(1, 2, ncol(var_rate) - 1)] /
-                                                   scr_x[, -c(1, 2, ncol(scr_x) - 1)], 2)
+    var_rate[, -c(1, 2, ncol(var_rate) - 1)] <- var_rate[, -c(1, 2, ncol(var_rate) - 1)] /
+                                                   scr_x[, -c(1, 2, ncol(scr_x) - 1)]
     # Create Rate Columns
     var_rate[is.nan(var_rate)] <- 0
     var_rate$idx_col <- scr_x$idx_col + (ev/10) + (0.1 * ev)
@@ -106,6 +106,8 @@ score_table <- function(scr1, scr2,
   scr_x$idx_col <- NULL
   names(scr_x)[[1]] <- sprintf("%s X %s", scr_names[[1]], scr_names[[2]])
   rownames(scr_x) <- NULL
+
+  class(scr_x) <- c("scorex_table", class(scr_x))
 
   return(scr_x)
 }
