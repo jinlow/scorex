@@ -1,4 +1,4 @@
-# scorex <img src="man/figures/scorex_hex_sticker.png" align="right" height = 100/>
+# scorex <img src="man/figures/scorex_hex_sticker.png" align="right" height = 90/>
 ## An R Package for Creating Score Cross Tables
 
 The goal of this package is to develop an interface for quickly creating dual score matrices to compare scorecard performance. It will allow for multiple performance measures and other bivars.
